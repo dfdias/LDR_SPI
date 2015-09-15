@@ -13,9 +13,9 @@
 //#define CS_PIN9 21
 
 
-MCP3008 adc[];
+MCP3008 adc[10];
 
-adc[0] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN0);
+adc[0] = MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN0);
 //adc[1] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN1);
 //adc[2] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN2);
 //adc[3] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN3);
@@ -27,10 +27,10 @@ adc[0] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN0);
 
 
 
-setup{
-	Serial.start(9600);
+void setup{
+	Serial.begin(9600);
 }
-loop{
+void loop{
 	readADC(11,adc);
 	printData();
 	

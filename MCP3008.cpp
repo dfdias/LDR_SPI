@@ -26,7 +26,7 @@ MCP3008::MCP3008(int clockpin, int mosipin, int misopin, int cspin) {
     
 }
 
-samples[] = int[10];
+int samples[10];
 
 // read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
 int MCP3008::readADC(int adcnum) {
