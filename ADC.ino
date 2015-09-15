@@ -12,60 +12,60 @@
 //#define CS_PIN8 20
 //#define CS_PIN9 21
 
+struct AdcData
+{
+ MCP3008 mcp;
+ int samples[8];
+};
 
-MCP3008 adc[10];
+AdcData adcs[10] = {
+  {MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, 10),{}},
+  {MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, 11),{}},
+  {MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, 12),{}},
+  {MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, 13),{}},
+  {MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, 14),{}},
+  {MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, 15),{}},
+  {MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, 16),{}},
+  {MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, 17),{}},
+  {MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, 18),{}},
+  {MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, 19),{}}
+};
 
-adc[0] = MCP3008(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN0);
-//adc[1] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN1);
-//adc[2] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN2);
-//adc[3] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN3);
-//adc[4] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN4);
-//adc[5] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN5);
-//adc[6] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN6);
-//adc[8] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, SC_PIN8);
-//adc[9] = MCP3008 adc(CLOCK_PIN, MOSI_PIN, MISO_PIN, CS_PIN9);
-
-
-
-void setup{
-	Serial.begin(9600);
+void readSingleMCPa(AdcData &adc_data){
+    for (int i = 0; i < 8; ++i)
+  {
+   adc_data.samples[i] = adc_data.mcp.readADC(i);
+  }
 }
-void loop{
-	readADC(11,adc);
-	printData();
-	
-}
-void read(int ADCidx, MCP3008[] adc){
- if (ADCidx = 11)				
- //if the input is 11 it will read the contents of all ADC's
+
+void readAll(){
+ for (int j = 0; j < sizeof(adcs)/sizeof(adcs[0]); ++j)
  {
-  for (int j = 0; j < adc.length(); ++i)
-  {
-   for (int i = 0; i < adc.sammples.length(); ++i)
-   {
-    adc[j].samples[i] = adc.readADC(i);
-   }
-  }
- }else
-  for (int i = 0; i < count; ++i)
-  {
-   adc[ADCidx].samples[i]= adc[ADCidx].readADC();
-  }
+  readSingleMCP(adcs[j]);
+ }
 }
 
-/*
-void printData()
+void printData(){
 //data to be printed on serial monitor only for debugging purposes uncomment if needed
- for (int i = 0; i < count; ++i)
+ for (int j = 0; j < sizeof(adcs)/sizeof(adcs[0]); ++j)
  {   
   Serial.println("---------------------");
   Serial.printf("|    ADC no. %d     |\n",j);
   Serial.println("---------------------");
-  for (int i = 0; i < count; ++i)
+  for (int i = 0; i < 8; ++i)
   {
-   Serial.printf("| channelno %d => %d |\n",i,adc[j].samples[i]);
+   Serial.printf("| channelno %d => %d |\n",i,adcs[j].samples[i]);
   }
   Serial.println("---------------------");
  }
 }
-*/
+
+
+void loop(){
+ readAll();
+ printData();  
+}
+
+void setup(){
+  Serial.begin(9600);
+}

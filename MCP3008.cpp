@@ -10,6 +10,8 @@
 #include "Arduino.h"
 #include "MCP3008.h"
 
+
+
 MCP3008::MCP3008(int clockpin, int mosipin, int misopin, int cspin) {
     
     // define SPI outputs and inputs for bitbanging
@@ -26,7 +28,7 @@ MCP3008::MCP3008(int clockpin, int mosipin, int misopin, int cspin) {
     
 }
 
-int samples[10];
+
 
 // read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
 int MCP3008::readADC(int adcnum) {
